@@ -1,0 +1,42 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Resized Photos</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+</head>
+  <body>
+  <div class="container">
+
+    <div class="row">
+
+        <div class="base">
+            <h1 class="page-header">Resized Photos:</h1>
+        </div>
+            <h3 class="base">Photo names here:</h3>
+        {{image_names}}
+        <hr>
+        {% for image_name in image_names %}
+        <div class="imgDiv col-lg-5 col-md-5 col-xs-7 thumb">
+            <img class="imageInst" src=" {{url_for('send_image', filename=image_name)}}" width="400px", height="400px" alt=""/><br><br>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+  <a href='/'><h3>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp home </h3></a>
+  <a href='/sign_up_in'><h3>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp sign up/in </h3></a>
+  <a href='/log_out'><h3>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp log out </h3></a>
+  <a href='/uploadImage'><h3>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp upload Image </h3></a>
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous">
+  </script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script>
+
+  </script>
+
+  </body>
+</html>

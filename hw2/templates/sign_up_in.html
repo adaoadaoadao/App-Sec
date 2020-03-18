@@ -1,0 +1,92 @@
+<html>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<body>
+  <b>Sign up here:</b><br>
+  <div class="sign_up_box">
+    <form class="sign_up_form" role="form">
+      <input type="text" name="username" class="form-control" placeholder="Sign Up Username" required autofocus>
+      <input type="password" name="password" class="form-control" placeholder="Sign Up Password" required>
+
+      <button type="button" onclick="signUp()"> Sign Up </button><br>
+    </form>
+  </div>
+
+  <br><br><br><br><br><br><br>
+
+  <b>Sign in here:</b>
+  <div class="sign_in_box">
+    <form class="sign_in_form" role="form">
+      <input type="text" name="sign_in_name" placeholder="Sign In Username" required>
+      <input type="password" name="sign_in_password" placeholder="Sign In Password" required>
+      <button type="button" onclick="signIn()"> Sign In </button>
+    </form>
+  </div>
+  <div class="upload_box" id="uploadDiv"></div>
+  <div class='view_gallery_box' id='viewGallery'></div>
+</body>
+<script>
+function signUp(){
+    var user = $('input[name="username"]').val();
+    var passw = $('input[name="password"]').val();
+    var en_user =  xorCrypt(user);
+    var en_passw = xorCrypt(passw);
+
+    var postData = {'sign_in_name': en_user , 'sign_in_password': en_passw};
+    //send account info back to server
+    $.ajax({
+      url: '/do_sign_up',
+      data: JSON.stringify(postData),
+      datatype: 'json',
+      contentType: 'application/json',
+      type: 'POST',
+      success: function(data){
+        var result = $.parseJSON(data);
+        alert(result['status']);
+      }
+    });
+};
+
+function signIn(){
+  var user = $('input[name="sign_in_name"]').val();
+  var passw = $('input[name="sign_in_password"]').val();
+  var en_user =  xorCrypt(user);
+  var en_passw = xorCrypt(passw);
+  console.log(en_user);
+  var postData = {'sign_in_name': en_user , 'sign_in_password': en_passw};
+  //send account info back to server and check returned status
+  $.ajax({
+    url: '/do_sign_in',
+    data: JSON.stringify(postData),
+    datatype: 'json',
+    contentType: 'application/json',
+    type: 'POST',
+    success: function(data){
+      var result = $.parseJSON(data);
+      if(result['status'] != 'OK'){
+        alert(result['status']);
+      }else{
+        $('#uploadDiv').append("<a href='/uploadImage'>To Upload</a><br><br>");
+        $('#viewGallery').append("<a href='/gallery/0'>To View Gallery</a>");
+      }
+    }
+  });
+};
+
+
+function xorCrypt (str, key) {
+    var output = ''
+
+    if (!key) {
+      key = 6
+    }
+
+    for (var i = 0; i < str.length; ++i) {
+      output += String.fromCharCode(key ^ str.charCodeAt(i))
+    }
+
+    return output
+  }
+
+</script>
+</html>
